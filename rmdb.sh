@@ -4,12 +4,12 @@ if [ -e /tmp/content.log -o -e /tmp/distent.log -o -e /tmp/checksums.log ]
 then	
 	echo "error: temporary files still exist..."
 	echo "Is another instance of this script still running or was the last one not terminated well?"
-	echo "For running this script, delete /tmp/content.log, /tmp//tmp/checksums.log and /tmp/distent.log and restart this script."
-	exit
+	echo "For running this script, delete /tmp/content.log, /tmp/tmp/checksums.log and /tmp/distent.log and restart this script."
+	exit 1
 fi
 
-touch /tmp/content.log /tmp/distent.log /tmp//tmp/checksums.log
-tree -f -i --noreport | grep "[^~]$" >/tmp/distent.log
+touch /tmp/content.log /tmp/distent.log /tmp/tmp/checksums.log
+tree -f -i --noreport | grep "[^~.]$" >/tmp/distent.log
 
 echo "Starting to check subfolders"
 
