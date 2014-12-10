@@ -7,7 +7,12 @@ then
 fi
 
 touch /tmp/content.log /tmp/distent.log /tmp/checksums.log
-tree -f -i --noreport | grep "[^~]$" >/tmp/distent.log
+
+if [ $1 == -r ]; then
+	tree -f -i --noreport | grep "[^~.]$" >/tmp/distent.log
+else
+	ls | grep "[^~.]$" >/tmp/distent.log
+fi
 
 for ((a=`wc -l < /tmp/distent.log`,b=1;b<=a;b++)); do
 	c=`sed -n "$b p" /tmp/distent.log`

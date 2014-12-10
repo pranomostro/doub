@@ -9,7 +9,12 @@ then
 fi
 
 touch /tmp/content.log /tmp/distent.log /tmp/tmp/checksums.log
-tree -f -i --noreport | grep "[^~.]$" >/tmp/distent.log
+
+if [ $1 == -r ]; then
+	tree -f -i --noreport | grep "[^~.]$" >/tmp/distent.log
+else
+	ls | grep "[^~.]$" >/tmp/distent.log
+fi
 
 echo "Starting to check subfolders"
 
