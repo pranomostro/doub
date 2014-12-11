@@ -5,8 +5,13 @@ if [ $# -ge 1 ]; then
 	ver=`echo $* | grep -o 'v'`
 fi
 
+if [ "$rec" = 'r' ]; then
+	echo recursive
+fi
+exit 1
+
 if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ]; then
-	echo "error: temporary files still exist..."
+	echo "error: temporary files still exist..." >/dev/stderr
 	if [ -n $ver ]; then
 		echo "Is another instance of this script still running or was the last one not terminated well?"
 		echo "For running this script, delete ~/.content.log, ~/.checksums.log and ~/.distent.log and restart this script."
