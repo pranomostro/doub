@@ -1,39 +1,39 @@
 #!/bin/bash
 
-if [ -e /tmp/content.log -o -e /tmp/distent.log -o -e /tmp/checksums.log ]
+if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ]
 then	
 	echo "error: temporary files still exist..."
 	echo "Is another instance of this script still running or was the last one not terminated well?"
-	echo "For running this script, delete /tmp/content.log, /tmp/tmp/checksums.log and /tmp/distent.log and restart this script."
+	echo "For running this script, delete ~/.content.log, ~/.checksums.log and ~/.distent.log and restart this script."
 	exit 1
 fi
 
-touch /tmp/content.log /tmp/distent.log /tmp/tmp/checksums.log
+touch ~/.content.log ~/.distent.log ~/.checksums.log
 
-if [ $1 == -r ]; then
-	tree -f -i --noreport | grep "[^~.]$" >/tmp/distent.log
+if [ $1 == '-r' ]; then
+	tree -f -i --noreport | grep "[^~.]$" >~/.distent.log
 else
-	ls | grep "[^~.]$" >/tmp/distent.log
+	ls | grep "[^~.]$" >~/.distent.log
 fi
 
 echo "Starting to check subfolders"
 
-for ((a=`wc -l < /tmp/distent.log`,b=1;b<=a;b++)); do
-	c=`sed -n "$b p" /tmp/distent.log`
+for ((a=`wc -l < ~/.distent.log`,b=1;b<=a;b++)); do
+	c=`sed -n "$b p" ~/.distent.log`
 
 	if [ -f "$c" ]; then		
-		echo "$c" >>/tmp/content.log
+		echo "$c" >>~/.content.log
 	fi
 done
 
 echo "Generating checksums"
 
-for ((a=`wc -l < /tmp/content.log`,b=1;b<=a;b++)); do
-	c=`sed -n "$b p" /tmp/content.log`
-	cat "$c" | md5sum | sed "s/ -//" >> /tmp/checksums.log
+for ((a=`wc -l < ~/.content.log`,b=1;b<=a;b++)); do
+	c=`sed -n "$b p" ~/.content.log`
+	cat "$c" | md5sum | sed "s/ -//" >> ~/.checksums.log
 done
 
-cat /tmp/content.log
+cat ~/.content.log
 echo "Press a key to continue"
 read
 
@@ -56,16 +56,16 @@ I will try to reply before the earth falls into the sun.
 
 EOF
 
-for ((a=`wc -l < /tmp/checksums.log`,b=1;b<a;b++)); do
+for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
 	let "c=$b+1"
-	d=`sed -n "$b p" /tmp/checksums.log`
+	d=`sed -n "$b p" ~/.checksums.log`
 
 	echo "$d, number $b of $a"
 
 	for ((;c<=a;c++));do
-		if [ `sed -n "$c p" /tmp/checksums.log` == $d ]; then
-			d=`sed -n "$b p" /tmp/content.log`
-			e=`sed -n "$c p" /tmp/content.log`
+		if [ `sed -n "$c p" ~/.checksums.log` == $d ]; then
+			d=`sed -n "$b p" ~/.content.log`
+			e=`sed -n "$c p" ~/.content.log`
 
 			cmp -s -i 0 "$d" "$e"
 			if (($?==0)); then
@@ -79,6 +79,6 @@ for ((a=`wc -l < /tmp/checksums.log`,b=1;b<a;b++)); do
    	done
 done
 
-rm /tmp/distent.log /tmp/content.log  /tmp/checksums.log
+rm ~/.distent.log ~/.content.log  ~/.checksums.log
 
 exit 0
