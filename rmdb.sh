@@ -5,14 +5,10 @@ if [ $# -ge 1 ]; then
 	ver=`echo $* | grep -o 'v'`
 fi
 
-if [ "$rec" = 'r' ]; then
-	echo recursive
-fi
-exit 1
 
 if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ]; then
 	echo "error: temporary files still exist..." >/dev/stderr
-	if [ -n $ver ]; then
+	if [ "$ver" = 'v' ]; then
 		echo "Is another instance of this script still running or was the last one not terminated well?"
 		echo "For running this script, delete ~/.content.log, ~/.checksums.log and ~/.distent.log and restart this script."
 	fi
@@ -21,13 +17,13 @@ fi
 
 touch ~/.content.log ~/.distent.log ~/.checksums.log
 
-if [ -n $rec ]; then
+if [ "$rec" = 'r' ]; then
 	tree -f -i --noreport | grep "[^~.]$" >~/.distent.log
 else
 	ls | grep "[^~.]$" >~/.distent.log
 fi
 
-if [ -n $ver ]; then
+if [ "$ver" = 'v' ]; then
 	echo "Starting to check subfolders"
 fi
 
@@ -39,7 +35,7 @@ for ((a=`wc -l < ~/.distent.log`,b=1;b<=a;b++)); do
 	fi
 done
 
-if [ -n $rec ]; then
+if [ "$ver" = 'v' ]; then
 	echo "Generating checksums"
 fi
 
@@ -48,7 +44,7 @@ for ((a=`wc -l < ~/.content.log`,b=1;b<=a;b++)); do
 	cat "$c" | md5sum | sed "s/ -//" >> ~/.checksums.log
 done
 
-if [ -n $ver ]; then
+if [ "$ver" = 'v' ]; then
 	cat ~/.content.log
 	echo "Press a key to continue"
 	read
@@ -86,7 +82,7 @@ for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
 
 			cmp -s -i 0 "$d" "$e"
 			if (($?==0)); then
-				if [ -n $ver ]; then
+				if [ "$ver" = 'v' ]; then
 					echo "Deleting $d"
 					echo "Keeping $e"
 					echo ""
