@@ -1,1 +1,3 @@
 Little shell scripts for deleting double files in a directory tree, maybe recursively.
+Depends on whether you choose to use the option '-r'.
+Another option, which makes this program talk way too much, is '-v'.
