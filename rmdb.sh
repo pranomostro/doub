@@ -1,22 +1,30 @@
 #!/bin/bash
 
-if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ]
-then	
+if [ $# -ge 1 ]; then
+	rec=`echo $* | grep -o 'r'`
+	ver=`echo $* | grep -o 'v'`
+fi
+
+if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ]; then
 	echo "error: temporary files still exist..."
-	echo "Is another instance of this script still running or was the last one not terminated well?"
-	echo "For running this script, delete ~/.content.log, ~/.checksums.log and ~/.distent.log and restart this script."
+	if [ -n $ver ]; then
+		echo "Is another instance of this script still running or was the last one not terminated well?"
+		echo "For running this script, delete ~/.content.log, ~/.checksums.log and ~/.distent.log and restart this script."
+	fi
 	exit 1
 fi
 
 touch ~/.content.log ~/.distent.log ~/.checksums.log
 
-if [ $1 == '-r' ]; then
+if [ -n $rec ]; then
 	tree -f -i --noreport | grep "[^~.]$" >~/.distent.log
 else
 	ls | grep "[^~.]$" >~/.distent.log
 fi
 
-echo "Starting to check subfolders"
+if [ -n $ver ]; then
+	echo "Starting to check subfolders"
+fi
 
 for ((a=`wc -l < ~/.distent.log`,b=1;b<=a;b++)); do
 	c=`sed -n "$b p" ~/.distent.log`
@@ -26,20 +34,23 @@ for ((a=`wc -l < ~/.distent.log`,b=1;b<=a;b++)); do
 	fi
 done
 
-echo "Generating checksums"
+if [ -n $rec ]; then
+	echo "Generating checksums"
+fi
 
 for ((a=`wc -l < ~/.content.log`,b=1;b<=a;b++)); do
 	c=`sed -n "$b p" ~/.content.log`
 	cat "$c" | md5sum | sed "s/ -//" >> ~/.checksums.log
 done
 
-cat ~/.content.log
-echo "Press a key to continue"
-read
+if [ -n $ver ]; then
+	cat ~/.content.log
+	echo "Press a key to continue"
+	read
 
-echo ""
-echo "Checking the sums (and if they match, the files)"
-echo "Warning, could be slow..."
+	echo ""
+	echo "Checking the sums (and if they match, the files)"
+	echo "Warning, could be slow..."
 
 	cat<<\EOF
 The Unix philosophy tells me that I should give you somthing to read while you are waiting
@@ -55,6 +66,7 @@ And by the way, if you want to tell me that I suck and my programs are slow, jus
 I will try to reply before the earth falls into the sun.
 
 EOF
+fi
 
 for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
 	let "c=$b+1"
@@ -69,9 +81,11 @@ for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
 
 			cmp -s -i 0 "$d" "$e"
 			if (($?==0)); then
-				echo "Deleting $d"
-				echo "Keeping $e"
-				echo ""
+				if [ -n $ver ]; then
+					echo "Deleting $d"
+					echo "Keeping $e"
+					echo ""
+				fi
 				rm "$d"
 				break
 			fi
