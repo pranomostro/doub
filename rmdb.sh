@@ -6,16 +6,16 @@ if [ $# -ge 1 ]; then
 fi
 
 
-if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ]; then
+if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ~/.sorted.log ]; then
 	echo "error: temporary files still exist..." >/dev/stderr
 	if [ "$ver" = 'v' ]; then
 		echo "Is another instance of this script still running or was the last one not terminated well?"
-		echo "For running this script, delete ~/.content.log, ~/.checksums.log and ~/.distent.log and restart this script."
+		echo "For running this script, delete ~/.content.log, ~/.checksums.log, ~/.sorted.log and ~/.distent.log and restart this script."
 	fi
 	exit 1
 fi
 
-touch ~/.content.log ~/.distent.log ~/.checksums.log
+touch ~/.content.log ~/.distent.log ~/.checksums.log ~/.sorted.log
 
 if [ "$rec" = 'r' ]; then
 	tree -f -i --noreport | grep "[^~.]$" >~/.distent.log
@@ -43,6 +43,9 @@ for ((a=`wc -l < ~/.content.log`,b=1;b<=a;b++)); do
 	c=`sed -n "$b p" ~/.content.log`
 	cat "$c" | md5sum | sed "s/ -//" >> ~/.checksums.log
 done
+
+paste ~/.checksums.log ~/.content.log >~/.distent.log
+sort ~/.distent.log >~/.sorted.log
 
 if [ "$ver" = 'v' ]; then
 	cat ~/.content.log
@@ -73,7 +76,9 @@ for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
 	let "c=$b+1"
 	d=`sed -n "$b p" ~/.checksums.log`
 
-	echo "$d, number $b of $a"
+	if [ "$ver" = 'v' ]; then
+		echo "$d, number $b of $a"
+	fi
 
 	for ((;c<=a;c++));do
 		if [ `sed -n "$c p" ~/.checksums.log` == $d ]; then
@@ -94,6 +99,6 @@ for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
    	done
 done
 
-rm ~/.distent.log ~/.content.log  ~/.checksums.log
+rm ~/.distent.log ~/.content.log  ~/.checksums.log ~/.sorted.log
 
 exit 0
