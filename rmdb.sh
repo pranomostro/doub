@@ -73,7 +73,9 @@ for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
 	let "c=$b+1"
 	d=`sed -n "$b p" ~/.checksums.log`
 
-	echo "$d, number $b of $a"
+	if [ "$ver" = 'v' ]; then
+		echo "$d, number $b of $a"
+	fi
 
 	for ((;c<=a;c++));do
 		if [ `sed -n "$c p" ~/.checksums.log` == $d ]; then
