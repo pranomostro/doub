@@ -6,7 +6,7 @@ if [ $# -ge 1 ]; then
 fi
 
 
-if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log ~/.sorted.log ]; then
+if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log -o -e ~/.sorted.log ]; then
 	echo "error: temporary files still exist..." >/dev/stderr
 	if [ "$ver" = 'v' ]; then
 		echo "Is another instance of this script still running or was the last one not terminated well?"
@@ -47,6 +47,7 @@ done
 paste ~/.checksums.log ~/.content.log >~/.distent.log
 sort ~/.distent.log >~/.sorted.log
 
+
 if [ "$ver" = 'v' ]; then
 	cat ~/.content.log
 	echo "Press a key to continue"
@@ -72,9 +73,10 @@ I will try to reply before the earth falls into the sun.
 EOF
 fi
 
-for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;b++)); do
+for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;)); do
 	let "c=$b+1"
-	d=`sed -n "$b p" ~/.checksums.log`
+	d=`sed -n "$b p" ~/.sorted.log | awk -e '{ print $1 }'`
+	e=`sed -n "$c p" ~/.sorted.log | awk -e '{ print $1 }'`
 
 	if [ "$ver" = 'v' ]; then
 		echo "$d, number $b of $a"
