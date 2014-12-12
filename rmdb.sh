@@ -41,7 +41,7 @@ fi
 
 for ((a=`wc -l < ~/.content.log`,b=1;b<=a;b++)); do
 	c=`sed -n "$b p" ~/.content.log`
-	cat "$c" | md5sum | sed "s/ -//" >> ~/.checksums.log
+	cat "$c" | md5sum | sed "s/ - //" >> ~/.checksums.log
 done
 
 if [ "$ver" = 'v' ]; then
