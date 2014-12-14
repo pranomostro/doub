@@ -73,8 +73,7 @@ I will try to reply before the earth falls into the sun.
 EOF
 fi
 
-for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;)); do
-	let "c=$b+1"
+for ((a=`wc -l < ~/.checksums.log`,b=1,c=2;b<a;)); do
 	d=`sed -n "$b p" ~/.sorted.log | awk -e '{ print $1 }'`
 	e=`sed -n "$c p" ~/.sorted.log | awk -e '{ print $1 }'`
 
@@ -82,23 +81,12 @@ for ((a=`wc -l < ~/.checksums.log`,b=1;b<a;)); do
 		echo "$d, number $b of $a"
 	fi
 
-	for ((;c<=a;c++));do
-		if [ `sed -n "$c p" ~/.checksums.log` == $d ]; then
-			d=`sed -n "$b p" ~/.content.log`
-			e=`sed -n "$c p" ~/.content.log`
-
-			cmp -s -i 0 "$d" "$e"
-			if (($?==0)); then
-				if [ "$ver" = 'v' ]; then
-					echo "Deleting $d"
-					echo "Keeping $e"
-					echo ""
-				fi
-				rm "$d"
-				break
-			fi
-		fi
-   	done
+	if [ $d == $e ]; then
+		let "c=$c+1"
+	else
+		let "b=$c"
+		let "c=$b+1"
+	fi
 done
 
 rm ~/.distent.log ~/.content.log  ~/.checksums.log ~/.sorted.log
