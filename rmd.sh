@@ -5,7 +5,6 @@ if [ $# -ge 1 ]; then
 	ver=`echo $* | grep -o 'v'`
 fi
 
-
 if [ -e ~/.content.log -o -e ~/.distent.log -o -e ~/.checksums.log -o -e ~/.sorted.log ]; then
 	echo "error: temporary files still exist..." >/dev/stderr
 	if [ "$ver" = 'v' ]; then
