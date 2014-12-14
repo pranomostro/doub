@@ -72,8 +72,7 @@ I will try to reply before the earth falls into the sun.
 
 EOF
 fi
-
-for ((a=`wc -l < ~/.checksums.log`,b=1,c=2;b<a;)); do
+for ((a=`wc -l < ~/.checksums.log`,b=1,c=2;c<=a;)); do
 	d=`sed -n "$b p" ~/.sorted.log | awk -e '{ print $1 }'`
 	e=`sed -n "$c p" ~/.sorted.log | awk -e '{ print $1 }'`
 
@@ -82,6 +81,15 @@ for ((a=`wc -l < ~/.checksums.log`,b=1,c=2;b<a;)); do
 	fi
 
 	if [ $d == $e ]; then
+		f=`cat ~/.sorted.log | sed -n "${b}s/[0-9a-f]\+ \t//p"`
+		g=`cat ~/.sorted.log | sed -n "${c}s/[0-9a-f]\+ \t//p"`
+		cmp -s "$f" "$g"
+		if(($?==0));then
+			if [ "$ver" == 'v' ]; then
+				echo "Deleting $g, keeping $f."
+			fi
+			rm $g
+		fi
 		let "c=$c+1"
 	else
 		let "b=$c"
