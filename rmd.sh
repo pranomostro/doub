@@ -13,9 +13,9 @@ if [ $# -ge 1 ]; then
 fi
 
 if [ "$rec" = 'r' ]; then
-	tree -f -i --noreport | grep "[^~.]$" >$dis
+	du -a | sed 's/^[0-9]\+\t//' | sed '$d' >$dis
 else
-	ls | grep "[^~.]$" >$dis
+	ls >$dis
 fi
 
 for ((a=`wc -l < $dis`,b=1;b<=a;b++)); do
