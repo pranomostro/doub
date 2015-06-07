@@ -1,0 +1,11 @@
+Did you ever have a huge directory structure, preferably a music collection,
+but unfortunately some duplicate files in duplicate directories?
+
+If the answer is yes, this might be for you!
+
+This shell script deletes the duplicates in your directory,
+while keeping always one instance of every file, only depending on
+the contents of the file and not the name.
+And here comes the clou: it can even do that recursively!
+
+So, if you need it, don't hesitate to try it. It's free.
