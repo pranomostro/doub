@@ -1,0 +1,21 @@
+.TH RMD 1
+.SH NAME
+\fBrmd\fR \- remove doubles
+
+.SH SYNOPSIS
+\fBrmd\fR DIR [-r]
+
+.SH DESCRIPTION
+\fBrmd\fR is a hack overusing checksums to remove files with the same
+content in a directory or a directory tree, keeping always one of the
+duplicated files. Without the option '-r', this is done in the directory
+DIR, with '-r', this is done recursively in DIR.
+
+.SH "SEE ALSO"
+\fBrm(1)\fR, \fBdu(1)\fR
+
+.SH BUGS
+No bugs have been discovered yet, but back up your stuff anyway! It is a bit slow, but scales pretty well.
+
+.SH AUTHOR
+Tell me how slow it is at a.regenfuss@gmx.de
