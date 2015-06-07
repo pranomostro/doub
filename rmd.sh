@@ -8,12 +8,12 @@ until [ -e "$con" -a -e "$dis" -a -e "$sum" -a -e "$srt" ]; do
 	touch $con $dis $sum $srt
 done
 
-if [ "$2" = "-r" ]; then rec="yes" fi
+dir="$1"; rec="$2"
 
-if [ "$rec" = 'r' ]; then
-	du -a $1 | sed 's/^[0-9]\+\t//' | sed '$d' >$dis
+if [ "$rec" = '-r' ]; then
+	du -a $dir | sed 's/^[0-9]\+\t//' | sed '$d' >$dis
 else
-	ls $1 >$dis
+	ls $dir >$dis
 fi
 
 for ((a=`wc -l < $dis`,b=1;b<=a;b++)); do
