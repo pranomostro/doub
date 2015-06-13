@@ -3,9 +3,8 @@ but unfortunately some duplicate files in duplicate directories?
 
 If the answer is yes, this might be for you!
 
-This shell script deletes the duplicates in your directory,
-while keeping always one instance of every file, only depending on
-the contents of the file and not the name.
-And here comes the clou: it can even do that recursively!
+This shell script prints the duplicates in your directory (structure), making it possible to
+process these files later on, whatever you like to do with them. You can pipe the output
+to `xargs rm`, just touching them or any other task.
 
 So, if you need it, don't hesitate to try it. It's free.

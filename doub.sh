@@ -1,38 +1,38 @@
 #!/bin/bash
 
-until [ -e "$con" -a -e "$dis" -a -e "$sum" -a -e "$srt" ]; do
+until [ -e "$raw" -a -e "$fil" -a -e "$sum" -a -e "$srt" ]; do
 	con=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	dis=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	srt=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-	touch $con $dis $sum $srt
+	touch $raw $fil $sum $srt
 done
 
 dir="$1"; rec="$2"
 
 if [ "$rec" = '-r' ]; then
-	du -a $dir | sed 's/^[0-9]\+\t//' | sed '$d' >$dis
+	du -a $dir | sed 's/^[0-9]\+\t//' | sed '$d' >$fil
 else
-	ls $dir >$dis
+	ls $dir >$fil
 fi
 
-for ((a=`wc -l < $dis`,b=1;b<=a;b++)); do
-	c=`sed -n "$b p" $dis`
+for ((a=`wc -l < $fil`,b=1;b<=a;b++)); do
+	c=`sed -n "$b p" $fil`
 
 	if [ -f "$c" ]; then
-		echo "$c" >>$con
+		echo "$c" >>$raw
 	fi
 done
 
-for ((a=`wc -l < $con`,b=1;b<=a;b++)); do
-	c=`sed -n "$b p" $con`
+for ((a=`wc -l < $raw`,b=1;b<=a;b++)); do
+	c=`sed -n "$b p" $raw`
 	cat "$c" | md5sum | sed "s/ -//" >> $sum
 done
 
-paste $sum $con >$dis
-sort $dis >$srt
+paste $sum $raw >$fil
+sort $fil >$srt
 
-for ((a=`wc -l < $sum`,b=1,c=2;c<=a;)); do
+for ((a=`wc -l < $srt`,b=1,c=2;c<=a;)); do
 	d=`sed -n "$b p" $srt | awk -e '{ print $1 }'`
 	e=`sed -n "$c p" $srt | awk -e '{ print $1 }'`
 
@@ -49,6 +49,6 @@ for ((a=`wc -l < $sum`,b=1,c=2;c<=a;)); do
 	fi
 done
 
-rm $con $dis $sum $srt
+rm $raw $fil $sum $srt
 
 exit 0
