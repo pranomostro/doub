@@ -32,22 +32,11 @@ done
 paste $sum $fil >$raw
 sort $raw >$srt
 
-for ((a=`wc -l < $sum`,b=1,c=2;c<=a;)); do
-	d=`sed -n "$b p" $srt | awk -e '{ print $1 }'`
-	e=`sed -n "$c p" $srt | awk -e '{ print $1 }'`
-
-	if [ $d == $e ]; then
-		f=`cat $srt | sed -n "${b}s/[0-9a-f]\+ \t//p"`
-		g=`cat $srt | sed -n "${c}s/[0-9a-f]\+ \t//p"`
-
-		if cmp -s "$f" "$g"; then echo $g;fi
-
-		let "c=$c+1"
-	else
-		let "b=$c"
-		let "c=$b+1"
-	fi
+for ((a=1; a<=`wc -l "$srt"`; a++)); do
+	b=`expr "$a" + 1`	
 done
+
+exit 2
 
 rm $fil $raw $sum $srt
 
