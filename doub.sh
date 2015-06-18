@@ -34,32 +34,7 @@ done
 paste $sum $fil >$raw
 sort $raw >$srt
 
-len=`wc -l "$srt" | awk '{ print $1 }'`
-
-for ((a=1; a<"$len"; a++)); do
-	b=`expr "$a" + 1`
-
-	sum1=`sed -n "$a"p "$srt" | awk '{ print $1 }'`
-	sum2=`sed -n "$b"p "$srt" | awk '{ print $1 }'`
-
-	if [ "$sum1" = "$sum2" ]; then
-		echo -n `sed -n "$a"p "$srt" | awk '{ print $2 }'`
-	fi
-
-	while [ "$sum1" = "$sum2" ]; do
-		b=`expr "$b" + 1`
-
-		sum2=`sed -n "$b"p "$srt" | awk '{ print $1 }'`
-
-		if [ "$sum1" = "$sum2" ]; then
-			echo -n `sed -n "$b"p "$srt" | awk '{ print $2 }'`
-		fi
-	done
-
-	if [ "$sum1" = "$sum2" ]; then echo -e '\n'; fi
-
-	a="$b"
-done
+awk '{ if ($1=a){ printf("%s",$2) } else { printf ("\n") } a=$1 }' $srt
 
 rm $fil $raw $sum $srt
 
