@@ -2,6 +2,8 @@
 
 set -eo pipefail
 
+#Since bash doesn't know do { } while (); we have to do this.
+
 fil=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 raw=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
@@ -12,8 +14,9 @@ while [ -e "$fil" -o -e "$raw" -o -e "$sum" -o -e "$srt" ]; do
 	raw=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	srt=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-	touch $fil $raw $sum $srt
 done
+
+touch $fil $raw $sum $srt
 
 dir="$1"; rec="$2"
 
