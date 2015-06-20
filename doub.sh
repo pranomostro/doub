@@ -42,7 +42,7 @@ sort $raw >$srt
 awk 'BEGIN { lasteq="false" }
 {
 	if (lastsum==$1) { printf("%s ",lastname); lasteq="true" }
-	if (lastsum!=$1&&lasteq="true") { printf("%s\n", lastname); lasteq="false" }
+	if (lastsum!=$1&&lasteq=="true") { printf("%s\n", lastname); lasteq="false" }
 	lastsum=$1; lastname=$2
 }' $srt
 
