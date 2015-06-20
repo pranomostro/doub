@@ -2,7 +2,12 @@
 
 set -eo pipefail
 
-until [ -e "$fil" -a -e "$raw" -a -e "$sum" -a -e "$srt" ]; do
+fil=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
+raw=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
+sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
+srt=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
+
+while [ -e "$fil" -o -e "$raw" -o -e "$sum" -o -e "$srt" ]; do
 	fil=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	raw=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
 	sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
@@ -34,7 +39,12 @@ done
 paste $sum $fil >$raw
 sort $raw >$srt
 
-awk '{ if ($1=a){ printf("%s",$2) } else { printf ("\n") } a=$1 }' $srt
+awk 'BEGIN { lasteq="false" }
+{
+	if (lastsum==$1) { printf("%s ",lastname); lasteq="true" }
+	if (lastsum!=$1&&lasteq="true") { printf("%s\n", lastname); lasteq="false" }
+	lastsum=$1; lastname=$2
+}' $srt
 
 rm $fil $raw $sum $srt
 
