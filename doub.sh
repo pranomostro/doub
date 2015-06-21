@@ -42,10 +42,9 @@ done
 paste $sum $fil >$raw
 sort $raw >$srt
 
-awk 'BEGIN { lasteq="false" }
-{
-	if (lastsum==$1) { printf("%s ",lastname); lasteq="true" }
-	if (lastsum!=$1&&lasteq=="true") { printf("%s\n", lastname); lasteq="false" }
+awk '{
+	if (lastsum==$1) { printf("%s ",lastname); lasteq=1 }
+	if (lastsum!=$1&&lasteq==1) { printf("%s\n", lastname); lasteq=0 }
 	lastsum=$1; lastname=$2
 }' $srt
 
