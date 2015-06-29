@@ -4,16 +4,10 @@ set -eo pipefail
 
 #Since bash doesn't know do { } while (); we have to do this.
 
-fil=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-raw=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-srt=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
+fil=`echo /tmp/$RANDOM`; raw=`echo /tmp/$RANDOM`; sum=`echo /tmp/$RANDOM`; srt=`echo /tmp/$RANDOM`
 
 while [ -e "$fil" -o -e "$raw" -o -e "$sum" -o -e "$srt" ]; do
-	fil=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-	raw=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-	sum=`echo $RANDOm | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
-	srt=`echo $RANDOM | md5sum | sed 's/ .*//' | sed 's/.*/\/tmp\/&/'`
+	fil=`echo /tmp/$RANDOM`; raw=`echo /tmp/$RANDOM`; sum=`echo /tmp/$RANDOM`; srt=`echo /tmp/$RANDOM`
 done
 
 touch $fil $raw $sum $srt
