@@ -4,10 +4,10 @@ set -eo pipefail
 
 #Since bash doesn't know do { } while (); we have to do this.
 
-fil=`echo /tmp/$RANDOM`; raw=`echo /tmp/$RANDOM`; sum=`echo /tmp/$RANDOM`; srt=`echo /tmp/$RANDOM`
+fil=`echo /tmp/$RANDOM`.$$; raw=`echo /tmp/$RANDOM`.$$; sum=`echo /tmp/$RANDOM`.$$; srt=`echo /tmp/$RANDOM`.$$
 
 while [ -e "$fil" -o -e "$raw" -o -e "$sum" -o -e "$srt" ]; do
-	fil=`echo /tmp/$RANDOM`; raw=`echo /tmp/$RANDOM`; sum=`echo /tmp/$RANDOM`; srt=`echo /tmp/$RANDOM`
+	fil=`echo /tmp/$RANDOM`.$$; raw=`echo /tmp/$RANDOM`.$$; sum=`echo /tmp/$RANDOM`.$$; srt=`echo /tmp/$RANDOM`.$$
 done
 
 touch $fil $raw $sum $srt
