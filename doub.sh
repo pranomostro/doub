@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -eruo pipefail
+set -euo pipefail
 
 #Since bash doesn't know do { } while (); we have to do this.
 
@@ -15,7 +15,7 @@ touch "$fil" "$raw" "$sum" "$srt"
 dir="$1"; rec="$2"
 
 if [ "$rec" = '-r' ]; then
-	du -a $dir | sed 's/^[0-9]\+\t//' | sed '$d' >"$raw"
+	du -a "$dir" | sed 's/^[0-9]\+\t//' | sed '$d' >"$raw"
 else
 	ls "$dir" >"$raw"
 fi
