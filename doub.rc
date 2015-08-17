@@ -1,0 +1,48 @@
+#!/usr/bin/env rc
+
+fil='/tmp/fil'.$pid
+raw='/tmp/raw'.$pid
+sum='/tmp/sum'.$pid
+srt='/tmp/srt'.$pid
+
+while(test -e $fil -o -e $raw -o -e $sum -o -e $srt){
+	fil=`{echo /tmp/$RANDOM}.$pid
+	raw=`{echo /tmp/$RANDOM}.$pid
+	sum=`{echo /tmp/$RANDOM}.$pid
+	srt=`{echo /tmp/$RANDOM}.$pid
+}
+
+touch $fil $raw $sum $srt
+
+for(i)
+	switch(i){
+	case -r
+		rec=1
+	case *
+		dir=$i
+	}
+
+if(~ $rec 1)
+	du -a $dir | sed 's/^[0-9]\+\t//' | sed '$d' >$raw
+if not
+	ls $dir >$raw
+
+for(entry in `{cat $raw})
+	if(test -f $entry)
+		echo $entry >>/tmp/fil
+
+for(entry in `{cat $fil})
+	md5sum $entry | sed 's/ [^ ]\+$//' >>$sum
+
+paste $sum $fil >$raw
+sort $raw >$srt
+
+awk '{
+	if (lastsum==$1) { printf("%s ",lastname); lasteq=1 }
+	if (lastsum!=$1&&lasteq==1) { printf("%s\n", lastname); lasteq=0 }
+	lastsum=$1; lastname=$2
+}' $srt
+
+rm $fil $raw $sum $srt
+
+exit 0
