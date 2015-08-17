@@ -3,11 +3,12 @@
 \fBdoub\fR \- prints doubles
 
 .SH SYNOPSIS
-\fBdoub\fR DIR [-r]
+\fBdoub\fR [-r] [DIR]
 
 .SH DESCRIPTION
 \fBdoub\fR is a hack overusing checksums to print files with the same
-content in a directory or a directory tree, printing all duplicates except one.
+content in a directory or a directory tree, all duplicates in the same line,
+separated by colons.
 Without the option '-r', this is done only in the directory DIR, with '-r',
 this is done recursively in DIR.
 
@@ -15,8 +16,9 @@ this is done recursively in DIR.
 \fBuniq(1)\fR, \fBdu(1)\fR
 
 .SH BUGS
-No bugs have been discovered yet, but back up your stuff anyway! It is a bit
-slow, but scales pretty well.
+It is quite slow, mostly because of the hash-sum generation.
+.P
+doub can't deal with directories named '-r'.
 
 .SH AUTHOR
 Tell me how slow it is at a.regenfuss@gmx.de
