@@ -5,13 +5,6 @@ raw='/tmp/raw'.$pid
 sum='/tmp/sum'.$pid
 srt='/tmp/srt'.$pid
 
-while(test -e $fil -o -e $raw -o -e $sum -o -e $srt){
-	fil=`{echo /tmp/$RANDOM}.$pid
-	raw=`{echo /tmp/$RANDOM}.$pid
-	sum=`{echo /tmp/$RANDOM}.$pid
-	srt=`{echo /tmp/$RANDOM}.$pid
-}
-
 touch $fil $raw $sum $srt
 
 for(i)
