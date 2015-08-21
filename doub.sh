@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 #Since bash doesn't know do { } while (); we have to do this.
 
 fil=`echo /tmp/$RANDOM`.$$; raw=`echo /tmp/$RANDOM`.$$; sum=`echo /tmp/$RANDOM`.$$; srt=`echo /tmp/$RANDOM`.$$

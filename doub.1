@@ -19,6 +19,10 @@ this is done recursively in DIR.
 It is quite slow, mostly because of the hash-sum generation.
 .P
 doub can't deal with directories named '-r'.
+.P
+The output is colon-separated, which doesn't work quite well with
+filenames containing colons. But the PATH variable does this as well,
+so it seems the best option.
 
 .SH AUTHOR
 Tell me how slow it is at a.regenfuss@gmx.de
