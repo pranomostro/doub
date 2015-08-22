@@ -5,6 +5,8 @@ raw=`mktemp`
 sum=`mktemp`
 srt=`mktemp`
 
+dir='.'
+
 for i in "$@"; do
 	case "$i" in
 	-r)	rec='1';;
