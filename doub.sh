@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 
-#Since bash doesn't know do { } while (); we have to do this.
-
-fil=`echo /tmp/$RANDOM`.$$; raw=`echo /tmp/$RANDOM`.$$; sum=`echo /tmp/$RANDOM`.$$; srt=`echo /tmp/$RANDOM`.$$
-
-while [ -e "$fil" -o -e "$raw" -o -e "$sum" -o -e "$srt" ]; do
-	fil=`echo /tmp/$RANDOM`.$$; raw=`echo /tmp/$RANDOM`.$$; sum=`echo /tmp/$RANDOM`.$$; srt=`echo /tmp/$RANDOM`.$$
-done
+fil='/tmp/fil'.$$
+raw='/tmp/raw'.$$
+sum='/tmp/sum'.$$
+srt='/tmp/srt'.$$
 
 touch "$fil" "$raw" "$sum" "$srt"
 
@@ -18,17 +15,14 @@ else
 	ls "$dir" >"$raw"
 fi
 
-for ((a=`wc -l < "$raw"`,b=1;b<=a;b++)); do
-	c=`sed -n "$b p" "$raw"`
-
+for c in `cat "$raw"`; do
 	if [ -f "$c" ]; then
 		echo "$c" >>"$fil"
 	fi
 done
 
-for ((a=`wc -l < $fil`,b=1;b<=a;b++)); do
-	c=`sed -n "$b p" "$fil"`
-	cat "$c" | md5sum | sed "s/ -//" >> "$sum"
+for c in `cat "$fil"`; do
+	md5sum "$c" | sed "s/ [^ ]\+$//" >> "$sum"
 done
 
 paste "$sum" "$fil" >"$raw"
