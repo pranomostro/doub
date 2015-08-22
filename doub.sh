@@ -7,9 +7,14 @@ srt='/tmp/srt'.$$
 
 touch "$fil" "$raw" "$sum" "$srt"
 
-dir="$1"; rec="$2"
+for i in "$@"; do
+	case "$i" in
+	-r)	rec='1';;
+	*)	dir="$i"
+	esac
+done
 
-if [ "$rec" = '-r' ]; then
+if [ "$rec" = '1' ]; then
 	du -a "$dir" | sed 's/^[0-9]\+\t//' | sed '$d' >"$raw"
 else
 	ls "$dir" >"$raw"
