@@ -1,11 +1,9 @@
 #!/usr/bin/env rc
 
-fil='/tmp/fil'.$pid
-raw='/tmp/raw'.$pid
-sum='/tmp/sum'.$pid
-srt='/tmp/srt'.$pid
-
-touch $fil $raw $sum $srt
+fil=`{mktemp}
+raw=`{mktemp}
+sum=`{mktemp}
+srt=`{mktemp}
 
 for(i)
 	switch($i){

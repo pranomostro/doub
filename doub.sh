@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-fil='/tmp/fil'.$$
-raw='/tmp/raw'.$$
-sum='/tmp/sum'.$$
-srt='/tmp/srt'.$$
-
-touch "$fil" "$raw" "$sum" "$srt"
+fil=`mktemp`
+raw=`mktemp`
+sum=`mktemp`
+srt=`mktemp`
 
 for i in "$@"; do
 	case "$i" in
