@@ -1,5 +1,13 @@
 #!/usr/bin/env rc
 
+fn sigint{
+	rm -f $file $raw $sum $srt
+}
+
+fn sighup{
+	rm -f $file $raw $sum $srt
+}
+
 fil=`{mktemp}
 raw=`{mktemp}
 sum=`{mktemp}
