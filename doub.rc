@@ -8,10 +8,13 @@ fn sighup{
 	rm -f $file $raw $sum $srt
 }
 
-fil=`{mktemp}
-raw=`{mktemp}
-sum=`{mktemp}
-srt=`{mktemp}
+ifs='
+'
+
+fil=`{mktemp doub.XXXXXX }
+raw=`{mktemp doub.XXXXXX }
+sum=`{mktemp doub.XXXXXX }
+srt=`{mktemp doub.XXXXXX }
 
 for(i)
 	switch($i){
@@ -22,16 +25,17 @@ for(i)
 	}
 
 if(~ $rec 1)
-	du -a $dir | sed 's/^[0-9]\+\t//' | sed '$d' >$raw
-if not
+	find $dir -type f >$fil
+if not{
 	ls $dir >$raw
 
-for(entry in `{cat $raw})
-	if(test -f $entry)
-		echo $entry >>$fil
+	for(entry in `{cat $raw})
+		if(test -f $entry)
+			echo $entry >>$fil
+}
 
 for(entry in `{cat $fil})
-	md5sum $entry | sed 's/ [^ ]\+$//' >>$sum
+	md5sum $entry | awk '{ print $1 }' >>$sum
 
 paste $sum $fil >$raw
 sort $raw >$srt
