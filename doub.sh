@@ -3,10 +3,10 @@
 IFS='
 '
 
-fil=`mktemp doub.XXXXXX`
-raw=`mktemp doub.XXXXXX`
-sum=`mktemp doub.XXXXXX`
-srt=`mktemp doub.XXXXXX`
+fil=`mktemp /tmp/doub.XXXXXX`
+raw=`mktemp /tmp/doub.XXXXXX`
+sum=`mktemp /tmp/doub.XXXXXX`
+srt=`mktemp /tmp/doub.XXXXXX`
 
 dir='.'
 
