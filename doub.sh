@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-fil=`mktemp`
-raw=`mktemp`
-sum=`mktemp`
-srt=`mktemp`
+IFS='
+'
+
+fil=`mktemp doub.XXXXXX`
+raw=`mktemp doub.XXXXXX`
+sum=`mktemp doub.XXXXXX`
+srt=`mktemp doub.XXXXXX`
 
 dir='.'
 
@@ -15,16 +18,16 @@ for i in "$@"; do
 done
 
 if [ "$rec" = '1' ]; then
-	du -a "$dir" | sed 's/^[0-9]\+\t//' | sed '$d' >"$raw"
+	find "$dir" -type f >"$fil"
 else
 	ls "$dir" >"$raw"
-fi
 
-for c in `cat "$raw"`; do
-	if [ -f "$c" ]; then
-		echo "$c" >>"$fil"
-	fi
-done
+	for c in `cat "$raw"`; do
+		if [ -f "$c" ]; then
+			echo "$c" >>"$fil"
+		fi
+	done
+fi
 
 for c in `cat "$fil"`; do
 	md5sum "$c" | sed "s/ [^ ]\+$//" >> "$sum"
