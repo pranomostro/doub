@@ -43,7 +43,7 @@ sort $raw >$srt
 awk '{
 	if (lastsum==$1) { printf("%s:",lastname); lasteq=1 }
 	if (lastsum!=$1&&lasteq==1) { printf("%s\n", lastname); lasteq=0 }
-	lastsum=$1; lastname=$2
+	lastsum=$1; sub($1 "\t", "", $0); lastname=$0
 }' $srt
 
 rm $fil $raw $sum $srt
