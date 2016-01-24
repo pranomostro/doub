@@ -24,6 +24,8 @@ for(i)
 		dir=$i
 	}
 
+if(~ $dir '')
+	dir=`{pwd}
 if(~ $rec 1)
 	find $dir -type f >$fil
 if not{
