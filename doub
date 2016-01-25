@@ -49,5 +49,3 @@ awk '{
 }' $srt
 
 rm $fil $raw $sum $srt
-
-exit 0
