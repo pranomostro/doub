@@ -36,8 +36,7 @@ if not{
 			echo $entry >>$fil
 }
 
-for(entry in `{cat $fil})
-	md5sum $entry | awk '{ print $1 }' >>$sum
+md5sum `{cat $fil} | awk '{ print $1 }' >>$sum
 
 paste $sum $fil >$raw
 sort $raw >$srt
