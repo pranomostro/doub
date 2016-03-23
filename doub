@@ -36,6 +36,9 @@ if not{
 			echo $entry >>$fil
 }
 
+if(test -e $fil)
+	exit
+
 md5sum `{cat $fil} | awk '{ print $1 }' >>$sum
 
 paste $sum $fil >$raw
