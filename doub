@@ -39,7 +39,7 @@ if not{
 if(~ `{wc -l $fil | awk '{ print $1 }'} 0)
 	exit
 
-md5sum `{cat $fil} | awk '{ print $1 }' >>$sum
+cat $fil | xargs md5sum | awk '{ print $1 }' >>$sum
 
 paste $sum $fil >$raw
 sort $raw >$srt
