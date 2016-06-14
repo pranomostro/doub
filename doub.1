@@ -9,16 +9,14 @@ doub [-r] [DIR]
 doub is a program overusing checksums to print files with the same
 content in a directory or a directory tree, all duplicates in the same
 line, separated by colons.
-Without the option '-r', this is done only in the directory DIR, with
-'-r', this is done recursively in DIR.
+Without the option -r, this is done only in the directory DIR,
+with -r, this is done recursively in DIR.
 
 .SH "SEE ALSO"
 .IR uniq(1),
 .IR du(1)
 
 .SH BUGS
-It is quite slow, mostly because of the hashsum generation.
-.P
 doub can't deal with directories named '-r'.
 .P
 The output is colon-separated, which doesn't work quite well with
