@@ -16,10 +16,13 @@ line, separated by colons.
 do the searching recursively in dir.
 
 .SH EXAMPLES
-.TP
-.B doub | cut -d : -f 2- | tr ':' '\en' | xargs rm
-.TP
-Remove files with the same contents in the current directory, keeping one.
+.PP
+.fi
+.RS
+$ doub | cut -d : -f 2- | tr ':' '\en' | xargs rm
+.RE
+.fi
+removes files with the same contents in the current directory, keeping one.
 
 .SH BUGS
 doub can't deal with directories named '-r'.
