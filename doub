@@ -38,7 +38,7 @@ if not{
 if(~ `{wc -l $fil | awk '{ print $1 }'} 0)
 	exit 0
 
-xargs md5sum <$fil | awk '{ print $1 }' >>$sum
+xargs -d '\n' md5sum <$fil | awk '{ print $1 }' >>$sum
 
 paste $sum $fil >$raw
 sort $raw >$srt
