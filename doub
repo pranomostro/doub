@@ -2,7 +2,7 @@
 
 fn die{
 	rm -f $fil $raw $sum $srt
-	exit 1
+	exit 0
 }
 
 fn sigint{ die }; fn sighup{ die }; fn sigalrm{ die }; fn sigfpe{ die }
@@ -10,22 +10,23 @@ fn sigint{ die }; fn sighup{ die }; fn sigalrm{ die }; fn sigfpe{ die }
 ifs='
 '
 
-fil=`{ mktemp /tmp/doub.XXXXXX }
-raw=`{ mktemp /tmp/doub.XXXXXX }
-sum=`{ mktemp /tmp/doub.XXXXXX }
-srt=`{ mktemp /tmp/doub.XXXXXX }
+fil=`{ mktemp '/tmp/doub.XXXXXX' }
+raw=`{ mktemp '/tmp/doub.XXXXXX' }
+sum=`{ mktemp '/tmp/doub.XXXXXX' }
+srt=`{ mktemp '/tmp/doub.XXXXXX' }
 
-for(i)
-	switch($i){
-	case '-r'
-		rec='1'
-	case *
-		dir=$i
-	}
+dir=`{pwd}
 
-if(~ $dir '')
-	dir=`{pwd}
-if(~ $rec 1)
+if(~ $1 '-r'){
+	rec='1'
+	shift
+}
+if(~ $1 '--')
+	shift
+if(~ $#* '1')
+	dir=$1
+
+if(~ $rec '1')
 	find $dir -type f >$fil
 if not{
 	ls $dir >$raw
@@ -36,9 +37,9 @@ if not{
 }
 
 if(~ `{wc -l $fil | awk '{ print $1 }'} 0)
-	exit 0
+	die
 
-xargs -d '\n' md5sum <$fil | awk '{ print $1 }' >>$sum
+xargs -d '\n' sha512sum <$fil | awk '{ print $1 }' >>$sum
 
 paste $sum $fil >$raw
 sort $raw >$srt
@@ -49,4 +50,4 @@ awk '{
 	lastsum=$1; sub($1 "\t", "", $0); lastname=$0
 }' $srt
 
-rm $fil $raw $sum $srt
+die

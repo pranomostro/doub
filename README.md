@@ -10,9 +10,7 @@ the result can be parsed and any command can be applied with xargs.
 Requirements
 ------------
 
-rc (the plan9 shell), and some sort of coreutils.  It hasn't been tested
-extensively on different platforms, but it does not use GNU flags or
-any special behaviour, it should be fine on every system.
+rc (the plan9 shell), and some basic unix utilities.
 
 Installation
 ------------
@@ -21,9 +19,7 @@ It is as simple as typing
 
 	make install
 
-License and Thanks
-------------------
+License
+-------
 
-As always, the MIT license is the license of choice.  Thanks to the
-people at suckless.org. Their work helped a lot to develop doub, even
-if just indirectly.
+[MIT license](./LICENSE).

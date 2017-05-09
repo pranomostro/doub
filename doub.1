@@ -25,15 +25,9 @@ $ doub | cut -d : -f 2- | tr ':' '\en' | xargs rm
 removes files with the same contents in the current directory, keeping one.
 
 .SH BUGS
-doub can't deal with directories named '-r'.
-.P
 The output is colon-separated, which doesn't work quite well with
-filenames containing colons. But the PATH variable does this as well,
+filenames containing colons. But the $PATH does this as well,
 so it seems the best option.
-.P
-There is a very small chance of false positives because there is no
-checking of the file contents, they are only compared with their
-hashsum.
 
 .SH STATUS
 1 if it receives a signal, and 0 when everything is alright.
