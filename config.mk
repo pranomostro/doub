@@ -1,5 +1,5 @@
-#configure doub
-
 PREFIX=/usr/local
 
-TARGET=doub
+BIN=doub
+MAN=$(BIN:=.1)
+CONF=config.mk
