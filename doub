@@ -5,15 +5,15 @@ fn die{
 	exit 0
 }
 
-fn sigint{ die }; fn sighup{ die }; fn sigalrm{ die }; fn sigfpe{ die }
+fn sigint{die}; fn sighup{die}; fn sigalrm{die}; fn sigfpe{die}; fn sigkill {die}; fn sigterm{die}
 
 ifs='
 '
 
-fil=`{ mktemp '/tmp/doub.XXXXXX' }
-raw=`{ mktemp '/tmp/doub.XXXXXX' }
-sum=`{ mktemp '/tmp/doub.XXXXXX' }
-srt=`{ mktemp '/tmp/doub.XXXXXX' }
+fil=`{mktemp '/tmp/doub.XXXXXX'}
+raw=`{mktemp '/tmp/doub.XXXXXX'}
+sum=`{mktemp '/tmp/doub.XXXXXX'}
+srt=`{mktemp '/tmp/doub.XXXXXX'}
 
 dir=`{pwd}
 
