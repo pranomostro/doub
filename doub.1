@@ -1,40 +1,59 @@
-.TH DOUB 1
-.SH NAME
-doub \- prints doubles in filesystems
+.Dd May 11, 2017
+.Dt DOUB 1
+.Os
 
-.SH SYNOPSIS
-doub [-r] [dir]
+.Sh NAME
+.Nm doub
+.Nd print duplicates in directory trees
 
-.SH DESCRIPTION
-doub is a program overusing checksums to print files with the same
-content in a directory or a directory tree, all duplicates in the same
-line, separated by colons.
+.Sh SYNOPSIS
+.Nm
+.Op Fl r
+.Op Ar dir
 
-.SH OPTIONS
-.TP
-.BI \-r
-do the searching recursively in dir.
+.Sh DESCRIPTION
+.Nm
+is prints the duplicate files in
+.Ar dir ,
+all files with the same content in one line, separated by colons.  When
+.Ar dir
+is not given, it searches the current directory.
 
-.SH EXAMPLES
-.PP
-.fi
-.RS
-$ doub | cut -d : -f 2- | tr ':' '\en' | xargs rm
-.RE
-.fi
-removes files with the same contents in the current directory, keeping one.
+.Sh OPTIONS
+.Bl -tag -width Ds
+.It Fl r
+Search for duplicates recursively. If the flag is not
+given, the duplicate searching is only done with files in
+the current directory. 
+.El
 
-.SH BUGS
-The output is colon-separated, which doesn't work quite well with
-filenames containing colons. But the $PATH does this as well,
-so it seems the best option.
+.Sh FILES
+.Bl -tag -width Ds
+.It Pa /tmp/doub.XXXXXX
+The format of the four temporary files used by
+.Nm .
+.El
 
-.SH STATUS
-1 if it receives a signal, and 0 when everything is alright.
+.Sh EXAMPLES
+Remove all files with the same content in the current directory,
+keeping one:
+.Pp
+.Dl $ doub | cut -d : -f 2- | tr\ : '\en' | xargs rm
 
-.SH "SEE ALSO"
-.IR uniq(1),
-.IR du(1)
+.Sh EXIT STATUS
+.Ex -std
 
-.SH AUTHOR
-Tell me how slow it is at pranomestro@gmail.com
+.Sh BUGS
+The output is colon-separated, which causes problems with filenames
+containing colons.
+
+.Sh SEE ALSO
+.Xr cut 1 ,
+.Xr du 1 ,
+.Xr rm 1 ,
+.Xr tr 1 ,
+.Xr uniq 1 ,
+.Xr xargs 1 .
+
+.Sh AUTHORS
+.An pranomostro Aq Mt pranomestro@gmail.com
