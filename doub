@@ -2,7 +2,7 @@
 
 fn die{
 	rm -f $fil $raw $sum $srt
-	exit 0
+	exit 2
 }
 
 fn sigint{die}; fn sighup{die}; fn sigalrm{die}; fn sigfpe{die}; fn sigkill {die}; fn sigterm{die}
@@ -10,10 +10,10 @@ fn sigint{die}; fn sighup{die}; fn sigalrm{die}; fn sigfpe{die}; fn sigkill {die
 ifs='
 '
 
-fil=`{mktemp '/tmp/doub.XXXXXX'}
-raw=`{mktemp '/tmp/doub.XXXXXX'}
-sum=`{mktemp '/tmp/doub.XXXXXX'}
-srt=`{mktemp '/tmp/doub.XXXXXX'}
+fil=`{mktemp '/tmp/XXXXXX.doub'}
+raw=`{mktemp '/tmp/XXXXXX.doub'}
+sum=`{mktemp '/tmp/XXXXXX.doub'}
+srt=`{mktemp '/tmp/XXXXXX.doub'}
 
 dir=`{pwd}
 
@@ -50,4 +50,4 @@ awk '{
 	lastsum=$1; sub($1 "\t", "", $0); lastname=$0
 }' $srt
 
-die
+rm -f $fil $raw $sum $srt

@@ -14,7 +14,8 @@ files, the result can be parsed and any command can be applied with xargs.
 Requirements
 ------------
 
-rc (the plan9 shell), and some basic unix utilities.
+* rc (the plan9 shell)
+* utilities not defined by POSIX: mktemp, sha512sum
 
 Installation
 ------------
