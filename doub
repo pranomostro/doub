@@ -10,10 +10,10 @@ fn sigint{die}; fn sighup{die}; fn sigalrm{die}; fn sigfpe{die}; fn sigkill {die
 ifs='
 '
 
-fil=`{mktemp '/tmp/XXXXXX.doub'}
-raw=`{mktemp '/tmp/XXXXXX.doub'}
-sum=`{mktemp '/tmp/XXXXXX.doub'}
-srt=`{mktemp '/tmp/XXXXXX.doub'}
+fil=`{mktemp '/tmp/doub.XXXXXX'}
+raw=`{mktemp '/tmp/doub.XXXXXX'}
+sum=`{mktemp '/tmp/doub.XXXXXX'}
+srt=`{mktemp '/tmp/doub.XXXXXX'}
 
 dir=`{pwd}
 
@@ -41,8 +41,7 @@ if(~ `{wc -l $fil | awk '{ print $1 }'} 0)
 
 xargs -d '\n' sha512sum <$fil | awk '{ print $1 }' >>$sum
 
-paste $sum $fil >$raw
-sort $raw >$srt
+paste $sum $fil | sort >$srt
 
 awk '{
 	if (lastsum==$1) { printf("%s:", lastname); lasteq=1 }
