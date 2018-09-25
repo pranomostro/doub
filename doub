@@ -33,7 +33,7 @@ if not{
 
 	for(entry in `{cat $raw})
 		if(test -f $entry)
-			echo $entry >>$fil
+			printf '%s\n' $entry >>$fil
 }
 
 if(~ `{wc -l $fil | awk '{ print $1 }'} 0)
